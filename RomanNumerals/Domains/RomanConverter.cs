@@ -34,19 +34,19 @@ public class RomanConverter(int baseNumber)
         var result = string.Empty;
         switch (baseNumber)
         {
-            case < 9:
-                return AppendRomanUnder9Result(baseNumber, result);
-            case < 40:
+            case < 10:
+                return AppendRomanUnder10Result(baseNumber, result);
+            case < 50:
             {
-                return AppendRomanUnder40Result(baseNumber, result);
+                return AppendRomanUnder50Result(baseNumber, result);
             }
-            case < 90:
+            case < 100:
             {
-                return AppendRomanUnder90Result(baseNumber, result);
+                return AppendRomanUnder100Result(baseNumber, result);
             }
-            case < 400:
+            case < 500:
             {
-                return AppendRomanUnder400Result(baseNumber, result);
+                return AppendRomanUnder500Result(baseNumber, result);
             }
             case < 900:
             {
@@ -70,7 +70,7 @@ public class RomanConverter(int baseNumber)
     {
         return remainder switch
         {
-            < 400 => AppendRomanUnder400Result(remainder, result),
+            < 500 => AppendRomanUnder500Result(remainder, result),
             < 900 => AppendRomanUnder900Result(remainder, result),
             _ => result
         };
@@ -80,15 +80,22 @@ public class RomanConverter(int baseNumber)
     {
         result += _romanDictionary[500];
 
-        return AppendRomanUnder400Result(remainder % 500, result);
+        return AppendRomanUnder500Result(remainder % 500, result);
     }
 
-    private string AppendRomanUnder400Result(int remainder, string result)
+    private string AppendRomanUnder500Result(int remainder, string result)
     {
-        var hundredSize = remainder / 100;
-        for (var i = 0; i < hundredSize; i++)
+        if (remainder < 400)
         {
-            result += _romanDictionary[100];
+            var hundredSize = remainder / 100;
+            for (var i = 0; i < hundredSize; i++)
+            {
+                result += _romanDictionary[100];
+            }
+        }
+        else
+        {
+            result += _romanDictionary[100] + _romanDictionary[500];
         }
 
         return  AppendRomanSummaryUnder90Result(remainder % 100, result);
@@ -98,20 +105,29 @@ public class RomanConverter(int baseNumber)
     {
         return remainder switch
         {
-            < 9 => AppendRomanUnder9Result(remainder, result),
-            < 50 => AppendRomanUnder40Result(remainder, result),
-            < 90 => AppendRomanUnder90Result(remainder, result),
+            < 9 => AppendRomanUnder10Result(remainder, result),
+            < 50 => AppendRomanUnder50Result(remainder, result),
+            < 100 => AppendRomanUnder100Result(remainder, result),
             _ => result
         };
     }
 
-    private string AppendRomanUnder90Result(int remainder, string result)
+    private string AppendRomanUnder100Result(int remainder, string result)
     {
-        result += _romanDictionary[50];
-        return AppendRomanUnder40Result(remainder - 50, result);
+        if (remainder < 90)
+        {
+            result += _romanDictionary[50];
+        }
+        else
+        {
+            result += _romanDictionary[10] + _romanDictionary[100];
+            return AppendRomanUnder10Result(remainder % 10, result);       
+        }
+        
+        return AppendRomanUnder50Result(remainder - 50, result);
     }
 
-    private string AppendRomanUnder40Result(int remainder, string result)
+    private string AppendRomanUnder50Result(int remainder, string result)
     {
         if (remainder < 40)
         {
@@ -127,10 +143,10 @@ public class RomanConverter(int baseNumber)
         }
             
         var under10Remainder = baseNumber % 10;
-        return AppendRomanUnder9Result(under10Remainder, result);
+        return AppendRomanUnder10Result(under10Remainder, result);
     }
 
-    private string AppendRomanUnder9Result(int remainder, string result)
+    private string AppendRomanUnder10Result(int remainder, string result)
     {
         switch (remainder)
         {
@@ -144,7 +160,7 @@ public class RomanConverter(int baseNumber)
                 }
                 
                 result += _romanDictionary[5];
-                return AppendRomanCharacter(remainder - 5, result);
+                return AppendRomanCharacter(remainder % 5, result);
         }
 
         return string.Empty;
