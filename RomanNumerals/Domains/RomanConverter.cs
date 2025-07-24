@@ -38,17 +38,27 @@ public class RomanConverter(int baseNumber)
                 return AppendRomanUnder10Character(baseNumber, result);
             case < 40:
             {
-                var tenSize = baseNumber / 10;
-                for (var i = 0; i < tenSize; i++)
-                {
-                    result += _romanDictionary[10];
-                }
-            
-                var remainder = baseNumber % 10;
-                return AppendRomanUnder10Character(remainder, result);
+                return AppendTensToRomanUnder40Result(result);
+            }
+            case < 90:
+            {
+                result += _romanDictionary[50];
+                return AppendRomanCharacter(baseNumber - 50, result);
             }
             default: return _romanDictionary[baseNumber];
         }
+    }
+
+    private string AppendTensToRomanUnder40Result(string result)
+    {
+        var tenSize = baseNumber / 10;
+        for (var i = 0; i < tenSize; i++)
+        {
+            result += _romanDictionary[10];
+        }
+            
+        var remainder = baseNumber % 10;
+        return AppendRomanUnder10Character(remainder, result);
     }
 
     private string AppendRomanUnder10Character(int remainder, string result)
