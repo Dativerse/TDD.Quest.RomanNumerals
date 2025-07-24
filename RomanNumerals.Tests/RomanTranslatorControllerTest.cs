@@ -19,4 +19,15 @@ public class RomanTranslatorControllerTest
         
         Assert.That(result, Is.EqualTo("I"));
     }
+    
+    
+    [Test]
+    public void should_be_V_when_given_5()
+    {
+        var controller = new RomanTranslatorController();
+
+        var result = controller.GetRoman(5);
+        
+        Assert.That(result, Is.EqualTo("V"));
+    }
 }
