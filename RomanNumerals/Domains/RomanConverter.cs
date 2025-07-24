@@ -47,24 +47,13 @@ public class RomanConverter(int baseNumber)
 
             case < 400:
             {
-                var hundredSize = baseNumber / 100;
-                for (var i = 0; i < hundredSize; i++)
-                {
-                    result += _romanDictionary[100];
-                }
-
-                return  AppendRomanUnder400Result(baseNumber % 100, result);
+                return AppendRomanUnder400Result(baseNumber, result);
             }
             case < 900:
             {
                 result += _romanDictionary[500];
-                var remainder = baseNumber - 500;
-                var hundredSize = remainder / 100;
-                for (var i = 0; i < hundredSize; i++)
-                {
-                    result += _romanDictionary[100];
-                }
-                return AppendRomanUnder400Result(remainder % 100, result);
+
+                return AppendRomanUnder400Result(baseNumber - 500, result);
             }
             
             default: return _romanDictionary[baseNumber];
@@ -72,6 +61,17 @@ public class RomanConverter(int baseNumber)
     }
 
     private string AppendRomanUnder400Result(int remainder, string result)
+    {
+        var hundredSize = remainder / 100;
+        for (var i = 0; i < hundredSize; i++)
+        {
+            result += _romanDictionary[100];
+        }
+
+        return  AppendRomanSummaryUnder90Result(remainder % 100, result);
+    }
+
+    private string AppendRomanSummaryUnder90Result(int remainder, string result)
     {
         switch (remainder)
         {
