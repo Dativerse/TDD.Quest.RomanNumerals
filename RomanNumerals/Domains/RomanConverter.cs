@@ -1,6 +1,8 @@
+using System.Text;
+
 namespace RomanNumerals.Domains;
 
-public class RomanConverter(int numberConstruct)
+public class RomanConverter(int baseNumber)
 {
     private readonly Dictionary<int, string> _romanDictionary = new()
     {
@@ -29,7 +31,17 @@ public class RomanConverter(int numberConstruct)
 
     public string ConvertToRomanCharacter()
     {
-        var result = _romanDictionary[numberConstruct];
-        return result;
+        var result = string.Empty;
+        if (baseNumber < 4)
+        {
+            for (int i = 0; i < baseNumber; i++)
+            {
+                result += _romanDictionary[1];
+            }
+            
+            return result;
+        }
+        
+        return _romanDictionary[baseNumber];
     }
 }
