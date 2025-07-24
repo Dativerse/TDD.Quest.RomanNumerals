@@ -34,34 +34,34 @@ public class RomanConverter(int baseNumber)
         var result = string.Empty;
         switch (baseNumber)
         {
-            case < 10:
-                return AppendRomanUnder10Character(baseNumber, result);
+            case < 9:
+                return AppendRomanUnder9Character(baseNumber, result);
             case < 40:
             {
-                return AppendTensToRomanUnder40Result(result);
+                return AppendTensToRomanUnder40Result(baseNumber, result);
             }
             case < 90:
             {
                 result += _romanDictionary[50];
-                return AppendRomanCharacter(baseNumber - 50, result);
+                return AppendTensToRomanUnder40Result(baseNumber - 50, result);
             }
             default: return _romanDictionary[baseNumber];
         }
     }
 
-    private string AppendTensToRomanUnder40Result(string result)
+    private string AppendTensToRomanUnder40Result(int remainder, string result)
     {
-        var tenSize = baseNumber / 10;
+        var tenSize = remainder / 10;
         for (var i = 0; i < tenSize; i++)
         {
             result += _romanDictionary[10];
         }
             
-        var remainder = baseNumber % 10;
-        return AppendRomanUnder10Character(remainder, result);
+        var under10Remainder = baseNumber % 10;
+        return AppendRomanUnder9Character(under10Remainder, result);
     }
 
-    private string AppendRomanUnder10Character(int remainder, string result)
+    private string AppendRomanUnder9Character(int remainder, string result)
     {
         switch (remainder)
         {
