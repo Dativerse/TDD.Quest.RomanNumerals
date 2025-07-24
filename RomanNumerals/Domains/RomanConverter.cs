@@ -35,14 +35,14 @@ public class RomanConverter(int baseNumber)
         switch (baseNumber)
         {
             case < 9:
-                return AppendRomanUnder9Character(baseNumber, result);
+                return AppendRomanUnder9Result(baseNumber, result);
             case < 40:
             {
-                return AppendTensToRomanUnder40Result(baseNumber, result);
+                return AppendRomanUnder40Result(baseNumber, result);
             }
             case < 90:
             {
-                return Append10ToRomanUnder90Character(baseNumber, result);
+                return AppendRomanUnder90Result(baseNumber, result);
             }
 
             case < 400:
@@ -64,26 +64,26 @@ public class RomanConverter(int baseNumber)
         switch (remainder)
         {
             case < 9:
-                return AppendRomanUnder9Character(remainder, result);
+                return AppendRomanUnder9Result(remainder, result);
             case < 40:
             {
-                return AppendTensToRomanUnder40Result(remainder, result);
+                return AppendRomanUnder40Result(remainder, result);
             }
             case < 90:
             {
-                return Append10ToRomanUnder90Character(remainder, result);
+                return AppendRomanUnder90Result(remainder, result);
             }
         }
         return result;
     }
 
-    private string Append10ToRomanUnder90Character(int remainder, string result)
+    private string AppendRomanUnder90Result(int remainder, string result)
     {
         result += _romanDictionary[50];
-        return AppendTensToRomanUnder40Result(remainder - 50, result);
+        return AppendRomanUnder40Result(remainder - 50, result);
     }
 
-    private string AppendTensToRomanUnder40Result(int remainder, string result)
+    private string AppendRomanUnder40Result(int remainder, string result)
     {
         var tenSize = remainder / 10;
         for (var i = 0; i < tenSize; i++)
@@ -92,10 +92,10 @@ public class RomanConverter(int baseNumber)
         }
             
         var under10Remainder = baseNumber % 10;
-        return AppendRomanUnder9Character(under10Remainder, result);
+        return AppendRomanUnder9Result(under10Remainder, result);
     }
 
-    private string AppendRomanUnder9Character(int remainder, string result)
+    private string AppendRomanUnder9Result(int remainder, string result)
     {
         switch (remainder)
         {
