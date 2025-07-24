@@ -42,17 +42,45 @@ public class RomanConverter(int baseNumber)
             }
             case < 90:
             {
-                result += _romanDictionary[50];
-                return AppendTensToRomanUnder40Result(baseNumber - 50, result);
+                return Append10ToRomanUnder90Character(baseNumber, result);
             }
 
             case < 400:
             {
-                result += _romanDictionary[100];
-                return AppendTensToRomanUnder40Result(baseNumber - 100, result);
+                var hundredSize = baseNumber / 100;
+                for (var i = 0; i < hundredSize; i++)
+                {
+                    result += _romanDictionary[100];
+                }
+
+                return  Append(baseNumber % 100, result);
             }
             default: return _romanDictionary[baseNumber];
         }
+    }
+
+    private string Append(int remainder, string result)
+    {
+        switch (remainder)
+        {
+            case < 9:
+                return AppendRomanUnder9Character(remainder, result);
+            case < 40:
+            {
+                return AppendTensToRomanUnder40Result(remainder, result);
+            }
+            case < 90:
+            {
+                return Append10ToRomanUnder90Character(remainder, result);
+            }
+        }
+        return result;
+    }
+
+    private string Append10ToRomanUnder90Character(int remainder, string result)
+    {
+        result += _romanDictionary[50];
+        return AppendTensToRomanUnder40Result(remainder - 50, result);
     }
 
     private string AppendTensToRomanUnder40Result(int remainder, string result)
