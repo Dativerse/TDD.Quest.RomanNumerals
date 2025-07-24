@@ -127,7 +127,7 @@ public class RomanConverter(int baseNumber)
     {
         switch (remainder)
         {
-            case < 4:
+            case < 5:
                 return AppendRomanCharacter(remainder, result);
             case < 9:
                 result += _romanDictionary[5];
@@ -139,6 +139,12 @@ public class RomanConverter(int baseNumber)
 
     private string AppendRomanCharacter(int size, string result)
     {
+        if (size == 4)
+        {
+            result += _romanDictionary[1] + _romanDictionary[5];
+            return result;
+        }
+        
         for (var i = 0; i < size; i++)
         {
             result += _romanDictionary[1];
