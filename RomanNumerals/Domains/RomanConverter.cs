@@ -32,47 +32,37 @@ public class RomanConverter(int baseNumber)
     public string ConvertToRomanCharacter()
     {
         var result = string.Empty;
-        if (baseNumber < 4)
+        switch (baseNumber)
         {
-            result = AppendRomanCharacter(baseNumber, result);
-            
-            return result;
-        }
-        
-        if (baseNumber < 9)
-        {
-            result += _romanDictionary[5];
-            result = AppendRomanCharacter(baseNumber - 5, result);
-            
-            return result;
-        }
-        
-        if (baseNumber < 40)
-        {
-            var tenSize = baseNumber / 10;
-            for (var i = 0; i < tenSize; i++)
+            case < 10:
+                return AppendRomanUnder10Character(baseNumber, result);
+            case < 40:
             {
-                result += _romanDictionary[10];
+                var tenSize = baseNumber / 10;
+                for (var i = 0; i < tenSize; i++)
+                {
+                    result += _romanDictionary[10];
+                }
+            
+                var remainder = baseNumber % 10;
+                return AppendRomanUnder10Character(remainder, result);
             }
-            
-            var remainder = baseNumber % 10;
-            if (remainder < 4)
-            {
-                result = AppendRomanCharacter(remainder, result);
-            
-                return result;
-            }
-        
-            if (remainder < 9)
-            {
+            default: return _romanDictionary[baseNumber];
+        }
+    }
+
+    private string AppendRomanUnder10Character(int remainder, string result)
+    {
+        switch (remainder)
+        {
+            case < 4:
+                return AppendRomanCharacter(remainder, result);
+            case < 9:
                 result += _romanDictionary[5];
-                result = AppendRomanCharacter(remainder - 5, result);
-            
-                return result;
-            }
+                return AppendRomanCharacter(remainder - 5, result);
         }
-        
-        return _romanDictionary[baseNumber];
+
+        return string.Empty;
     }
 
     private string AppendRomanCharacter(int size, string result)
