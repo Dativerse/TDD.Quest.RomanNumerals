@@ -34,6 +34,18 @@ public class RomanTranslatorControllerTest
     [TestCase(90 , "XC", Description = "Subtraction case XC when given 90")]
     [TestCase(400 , "CD", Description = "Subtraction case CD when given 400")]
     [TestCase(900 , "CM", Description = "Subtraction case CM when given 900")]
+    
+    [TestCase(14 , "XIV", Description = "Subtraction case XIV when given 14")]
+    [TestCase(19 , "XIX", Description = "Subtraction case XIX when given 19")]
+    [TestCase(44 , "XLIV", Description = "Subtraction case XLIV when given 44")]
+    [TestCase(49 , "XLIX", Description = "Subtraction case XLIX when given 49")]
+    [TestCase(99 , "XCIX", Description = "Subtraction case XCIX when given 99")]
+    [TestCase(135 , "CXXXV", Description = "Standard case CXXXV when given 135")]
+    [TestCase(498 , "CDXCVIII", Description = "Subtraction case CDXCVIII when given 498")]
+    [TestCase(952 , "CMLII", Description = "Subtraction case CMLII when given 952")]
+    [TestCase(1345 , "MCCCXLV", Description = "Standard case MCCCXLV when given 1345")]
+    [TestCase(2457 , "MMCDLVII", Description = "Standard case MMCDLVII when given 2457")]
+    [TestCase(2986 , "MMCMLXXXVI", Description = "Subtraction case MMCMLXXXVI when given 2986")]
     public void GetRoman_WhenCall_ReturnsExpectedScore(int input, string expected)
     {
         var controller = new RomanTranslatorController();

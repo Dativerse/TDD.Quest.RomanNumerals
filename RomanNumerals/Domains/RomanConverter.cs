@@ -50,7 +50,7 @@ public class RomanConverter(int baseNumber)
             }
             case < 1000:
             {
-                return AppendRomanUnder900Result(baseNumber, result);
+                return AppendRomanUnder1000Result(baseNumber, result);
             }
             case < 4000:
             {
@@ -71,12 +71,12 @@ public class RomanConverter(int baseNumber)
         return remainder switch
         {
             < 500 => AppendRomanUnder500Result(remainder, result),
-            < 900 => AppendRomanUnder900Result(remainder, result),
+            < 1000 => AppendRomanUnder1000Result(remainder, result),
             _ => result
         };
     }
 
-    private string AppendRomanUnder900Result(int remainder, string result)
+    private string AppendRomanUnder1000Result(int remainder, string result)
     {
         if (remainder < 900)
         {
