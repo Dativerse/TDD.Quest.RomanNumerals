@@ -1,4 +1,6 @@
-﻿namespace RomanNumerals.Tests;
+﻿using NUnit.Framework.Constraints;
+
+namespace RomanNumerals.Tests;
 
 public class RomanTranslatorControllerTest
 {
@@ -8,8 +10,20 @@ public class RomanTranslatorControllerTest
     }
 
     [Test]
-    public void Test1()
+    public void should_be_I_when_given_1()
     {
-        Assert.Pass();
+        var controller = new RomanTranslatorController();
+
+        var result = controller.GetRoman(1);
+        
+        Assert.That(result, Is.EqualTo("I"));
+    }
+}
+
+public class RomanTranslatorController
+{
+    public string GetRoman(int i)
+    {
+        throw new NotImplementedException();
     }
 }
