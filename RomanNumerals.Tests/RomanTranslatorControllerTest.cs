@@ -25,6 +25,7 @@ public class RomanTranslatorControllerTest
     [TestCase(121, "CXXI", Description = "Addition case CXXI when given 121")]
     [TestCase(300, "CCC", Description = "Addition case CCC when given 300")]
     [TestCase(321, "CCCXXI", Description = "Addition case CCCXXI when given 321")]
+    [TestCase(511, "DXI", Description = "Addition case DXI when given 521")]
     public void GetRoman_WhenCall_ReturnsExpectedScore(int input, string expected)
     {
         var controller = new RomanTranslatorController();
