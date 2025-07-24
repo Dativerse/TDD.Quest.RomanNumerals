@@ -129,7 +129,13 @@ public class RomanConverter(int baseNumber)
         {
             case < 5:
                 return AppendRomanCharacter(remainder, result);
-            case < 9:
+            case < 10:
+                if (remainder == 9)
+                {
+                    result += _romanDictionary[1] + _romanDictionary[10];
+                    return result;
+                }
+                
                 result += _romanDictionary[5];
                 return AppendRomanCharacter(remainder - 5, result);
         }
