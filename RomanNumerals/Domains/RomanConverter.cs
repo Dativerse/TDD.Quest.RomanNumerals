@@ -34,10 +34,7 @@ public class RomanConverter(int baseNumber)
         var result = string.Empty;
         if (baseNumber < 4)
         {
-            for (int i = 0; i < baseNumber; i++)
-            {
-                result += _romanDictionary[1];
-            }
+            result = AppendRomanCharacter(baseNumber, result);
             
             return result;
         }
@@ -45,15 +42,21 @@ public class RomanConverter(int baseNumber)
         if (baseNumber < 9)
         {
             result += _romanDictionary[5];
-            
-            for (int i = 0; i < baseNumber - 5; i++)
-            {
-                result += _romanDictionary[1];
-            }
+            result = AppendRomanCharacter(baseNumber - 5, result);
             
             return result;
         }
         
         return _romanDictionary[baseNumber];
+    }
+
+    private string AppendRomanCharacter(int size, string result)
+    {
+        for (var i = 0; i < size; i++)
+        {
+            result += _romanDictionary[1];
+        }
+
+        return result;
     }
 }
