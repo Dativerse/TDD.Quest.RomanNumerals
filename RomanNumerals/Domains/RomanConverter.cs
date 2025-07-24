@@ -42,6 +42,18 @@ public class RomanConverter(int baseNumber)
             return result;
         }
         
+        if (baseNumber < 9)
+        {
+            result += _romanDictionary[5];
+            
+            for (int i = 0; i < baseNumber - 5; i++)
+            {
+                result += _romanDictionary[1];
+            }
+            
+            return result;
+        }
+        
         return _romanDictionary[baseNumber];
     }
 }
