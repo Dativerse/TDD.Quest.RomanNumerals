@@ -47,6 +47,31 @@ public class RomanConverter(int baseNumber)
             return result;
         }
         
+        if (baseNumber < 40)
+        {
+            var tenSize = baseNumber / 10;
+            for (var i = 0; i < tenSize; i++)
+            {
+                result += _romanDictionary[10];
+            }
+            
+            var remainder = baseNumber % 10;
+            if (remainder < 4)
+            {
+                result = AppendRomanCharacter(remainder, result);
+            
+                return result;
+            }
+        
+            if (remainder < 9)
+            {
+                result += _romanDictionary[5];
+                result = AppendRomanCharacter(remainder - 5, result);
+            
+                return result;
+            }
+        }
+        
         return _romanDictionary[baseNumber];
     }
 
