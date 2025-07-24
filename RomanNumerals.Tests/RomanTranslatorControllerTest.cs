@@ -28,10 +28,10 @@ public class RomanTranslatorControllerTest
     [TestCase(511, "DXI", Description = "Addition case DXI when given 521")]
     [TestCase(1322 , "MCCCXXII", Description = "Addition case MCCCXXII when given 1322")]
     [TestCase(2222 , "MMCCXXII", Description = "Addition case MMCCXXII when given 2222")]
-    [TestCase(4 , "IV", Description = "Addition case IV when given 4")]
-    [TestCase(9 , "IX", Description = "Addition case IX when given 9")]
-    [TestCase(40 , "XL", Description = "Addition case XL when given 40")]
-    [TestCase(90 , "XC", Description = "Addition case XC when given 90")]
+    [TestCase(4 , "IV", Description = "Subtraction case IV when given 4")]
+    [TestCase(9 , "IX", Description = "Subtraction case IX when given 9")]
+    [TestCase(40 , "XL", Description = "Subtraction case XL when given 40")]
+    [TestCase(90 , "XC", Description = "Subtraction case XC when given 90")]
     public void GetRoman_WhenCall_ReturnsExpectedScore(int input, string expected)
     {
         var controller = new RomanTranslatorController();
