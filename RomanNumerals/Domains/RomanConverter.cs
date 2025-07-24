@@ -45,6 +45,12 @@ public class RomanConverter(int baseNumber)
                 result += _romanDictionary[50];
                 return AppendTensToRomanUnder40Result(baseNumber - 50, result);
             }
+
+            case < 400:
+            {
+                result += _romanDictionary[100];
+                return AppendTensToRomanUnder40Result(baseNumber - 100, result);
+            }
             default: return _romanDictionary[baseNumber];
         }
     }
