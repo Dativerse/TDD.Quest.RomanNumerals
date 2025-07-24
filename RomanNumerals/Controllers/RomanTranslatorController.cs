@@ -4,6 +4,10 @@ public class RomanTranslatorController
 {
     public string GetRoman(int i)
     {
-        return "I";
+        var romanDictionary = new Dictionary<int, string> { {1, "I"}};
+        
+        var result = romanDictionary[i];
+        
+        return result;
     }
 }
