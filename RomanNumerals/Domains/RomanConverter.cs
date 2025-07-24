@@ -48,7 +48,7 @@ public class RomanConverter(int baseNumber)
             {
                 return AppendRomanUnder500Result(baseNumber, result);
             }
-            case < 900:
+            case < 1000:
             {
                 return AppendRomanUnder900Result(baseNumber, result);
             }
@@ -78,9 +78,17 @@ public class RomanConverter(int baseNumber)
 
     private string AppendRomanUnder900Result(int remainder, string result)
     {
-        result += _romanDictionary[500];
-
-        return AppendRomanUnder500Result(remainder % 500, result);
+        if (remainder < 900)
+        {
+            result += _romanDictionary[500];
+        }
+        else
+        {
+            result += _romanDictionary[100] + _romanDictionary[1000];
+            return AppendRomanUnder100Result(remainder % 100, result);       
+        }
+        
+        return AppendRomanUnder500Result(remainder - 500, result);
     }
 
     private string AppendRomanUnder500Result(int remainder, string result)
@@ -114,34 +122,42 @@ public class RomanConverter(int baseNumber)
 
     private string AppendRomanUnder100Result(int remainder, string result)
     {
-        if (remainder < 90)
+        switch (remainder)
         {
-            result += _romanDictionary[50];
+            case <= 0:
+                return result;
+            case < 90:
+                result += _romanDictionary[50];
+                break;
+            default:
+                result += _romanDictionary[10] + _romanDictionary[100];
+                return AppendRomanUnder10Result(remainder % 10, result);
         }
-        else
-        {
-            result += _romanDictionary[10] + _romanDictionary[100];
-            return AppendRomanUnder10Result(remainder % 10, result);       
-        }
-        
+
         return AppendRomanUnder50Result(remainder - 50, result);
     }
 
     private string AppendRomanUnder50Result(int remainder, string result)
     {
-        if (remainder < 40)
+        switch (remainder)
         {
-            var tenSize = remainder / 10;
-            for (var i = 0; i < tenSize; i++)
+            case <= 0:
+                return result;
+            case < 40:
             {
-                result += _romanDictionary[10];
+                var tenSize = remainder / 10;
+                for (var i = 0; i < tenSize; i++)
+                {
+                    result += _romanDictionary[10];
+                }
+
+                break;
             }
+            default:
+                result += _romanDictionary[10] + _romanDictionary[50];
+                break;
         }
-        else
-        {
-            result += _romanDictionary[10] + _romanDictionary[50];
-        }
-            
+
         var under10Remainder = baseNumber % 10;
         return AppendRomanUnder10Result(under10Remainder, result);
     }
