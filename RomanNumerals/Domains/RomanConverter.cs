@@ -99,7 +99,7 @@ public class RomanConverter(int baseNumber)
         return remainder switch
         {
             < 9 => AppendRomanUnder9Result(remainder, result),
-            < 40 => AppendRomanUnder40Result(remainder, result),
+            < 50 => AppendRomanUnder40Result(remainder, result),
             < 90 => AppendRomanUnder90Result(remainder, result),
             _ => result
         };
@@ -113,10 +113,17 @@ public class RomanConverter(int baseNumber)
 
     private string AppendRomanUnder40Result(int remainder, string result)
     {
-        var tenSize = remainder / 10;
-        for (var i = 0; i < tenSize; i++)
+        if (remainder < 40)
         {
-            result += _romanDictionary[10];
+            var tenSize = remainder / 10;
+            for (var i = 0; i < tenSize; i++)
+            {
+                result += _romanDictionary[10];
+            }
+        }
+        else
+        {
+            result += _romanDictionary[10] + _romanDictionary[50];
         }
             
         var under10Remainder = baseNumber % 10;
