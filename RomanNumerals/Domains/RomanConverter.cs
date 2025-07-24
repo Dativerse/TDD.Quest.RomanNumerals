@@ -2,199 +2,52 @@ using System.Text;
 
 namespace RomanNumerals.Domains;
 
-public class RomanConverter(int baseNumber)
+public class RomanConverter
 {
-    private readonly Dictionary<int, string> _romanDictionary = new()
+    private readonly int _number;
+
+    // Roman numeral symbols and their values
+    private static readonly (int Value, string Symbol)[] RomanNumerals =
     {
-        {
-            1, "I"
-        },
-        {
-            5, "V"
-        },
-        {
-            10, "X"
-        },
-        {
-            50, "L"
-        },
-        {
-            100, "C"
-        },
-        {
-            500, "D"
-        },
-        {
-            1000, "M"
-        }
+        (1000, "M"),
+        (900, "CM"),
+        (500, "D"),
+        (400, "CD"),
+        (100, "C"),
+        (90, "XC"),
+        (50, "L"),
+        (40, "XL"),
+        (10, "X"),
+        (9, "IX"),
+        (5, "V"),
+        (4, "IV"),
+        (1, "I")
     };
+
+    public RomanConverter(int number)
+    {
+        _number = number;
+    }
 
     public string ConvertToRomanCharacter()
     {
-        var result = string.Empty;
-        switch (baseNumber)
+        if (_number <= 0 || _number > 3999)
         {
-            case < 10:
-                return AppendRomanUnder10Result(baseNumber, result);
-            case < 50:
-            {
-                return AppendRomanUnder50Result(baseNumber, result);
-            }
-            case < 100:
-            {
-                return AppendRomanUnder100Result(baseNumber, result);
-            }
-            case < 500:
-            {
-                return AppendRomanUnder500Result(baseNumber, result);
-            }
-            case < 1000:
-            {
-                return AppendRomanUnder1000Result(baseNumber, result);
-            }
-            case < 4000:
-            {
-                var thousandSize = baseNumber / 1000;
-                for (var i = 0; i < thousandSize; i++)
-                {
-                    result += _romanDictionary[1000];
-                }
-                
-                return AppendRomanSummaryUnder900Result(baseNumber % 1000, result);
-            }
-            default: return _romanDictionary[baseNumber];
+            throw new ArgumentOutOfRangeException(nameof(_number), "Number must be between 1 and 3999");
         }
-    }
 
-    private string AppendRomanSummaryUnder900Result(int remainder, string result)
-    {
-        return remainder switch
-        {
-            < 500 => AppendRomanUnder500Result(remainder, result),
-            < 1000 => AppendRomanUnder1000Result(remainder, result),
-            _ => result
-        };
-    }
+        var result = new StringBuilder();
+        var remaining = _number;
 
-    private string AppendRomanUnder1000Result(int remainder, string result)
-    {
-        if (remainder < 900)
+        foreach (var (value, symbol) in RomanNumerals)
         {
-            result += _romanDictionary[500];
-        }
-        else
-        {
-            result += _romanDictionary[100] + _romanDictionary[1000];
-            return AppendRomanUnder100Result(remainder % 100, result);       
-        }
-        
-        return AppendRomanUnder500Result(remainder - 500, result);
-    }
-
-    private string AppendRomanUnder500Result(int remainder, string result)
-    {
-        if (remainder < 400)
-        {
-            var hundredSize = remainder / 100;
-            for (var i = 0; i < hundredSize; i++)
+            while (remaining >= value)
             {
-                result += _romanDictionary[100];
+                result.Append(symbol);
+                remaining -= value;
             }
         }
-        else
-        {
-            result += _romanDictionary[100] + _romanDictionary[500];
-        }
 
-        return  AppendRomanSummaryUnder90Result(remainder % 100, result);
-    }
-
-    private string AppendRomanSummaryUnder90Result(int remainder, string result)
-    {
-        return remainder switch
-        {
-            < 9 => AppendRomanUnder10Result(remainder, result),
-            < 50 => AppendRomanUnder50Result(remainder, result),
-            < 100 => AppendRomanUnder100Result(remainder, result),
-            _ => result
-        };
-    }
-
-    private string AppendRomanUnder100Result(int remainder, string result)
-    {
-        switch (remainder)
-        {
-            case <= 0:
-                return result;
-            case < 90:
-                result += _romanDictionary[50];
-                break;
-            default:
-                result += _romanDictionary[10] + _romanDictionary[100];
-                return AppendRomanUnder10Result(remainder % 10, result);
-        }
-
-        return AppendRomanUnder50Result(remainder - 50, result);
-    }
-
-    private string AppendRomanUnder50Result(int remainder, string result)
-    {
-        switch (remainder)
-        {
-            case <= 0:
-                return result;
-            case < 40:
-            {
-                var tenSize = remainder / 10;
-                for (var i = 0; i < tenSize; i++)
-                {
-                    result += _romanDictionary[10];
-                }
-
-                break;
-            }
-            default:
-                result += _romanDictionary[10] + _romanDictionary[50];
-                break;
-        }
-
-        var under10Remainder = baseNumber % 10;
-        return AppendRomanUnder10Result(under10Remainder, result);
-    }
-
-    private string AppendRomanUnder10Result(int remainder, string result)
-    {
-        switch (remainder)
-        {
-            case < 5:
-                return AppendRomanCharacter(remainder, result);
-            case < 10:
-                if (remainder == 9)
-                {
-                    result += _romanDictionary[1] + _romanDictionary[10];
-                    return result;
-                }
-                
-                result += _romanDictionary[5];
-                return AppendRomanCharacter(remainder % 5, result);
-        }
-
-        return string.Empty;
-    }
-
-    private string AppendRomanCharacter(int size, string result)
-    {
-        if (size == 4)
-        {
-            result += _romanDictionary[1] + _romanDictionary[5];
-            return result;
-        }
-        
-        for (var i = 0; i < size; i++)
-        {
-            result += _romanDictionary[1];
-        }
-
-        return result;
+        return result.ToString();
     }
 }
