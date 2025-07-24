@@ -44,20 +44,43 @@ public class RomanConverter(int baseNumber)
             {
                 return AppendRomanUnder90Result(baseNumber, result);
             }
-
             case < 400:
             {
                 return AppendRomanUnder400Result(baseNumber, result);
             }
             case < 900:
             {
-                result += _romanDictionary[500];
-
-                return AppendRomanUnder400Result(baseNumber - 500, result);
+                return AppendRomanUnder900Result(baseNumber, result);
             }
-            
+            case < 4000:
+            {
+                var thousandSize = baseNumber / 1000;
+                for (var i = 0; i < thousandSize; i++)
+                {
+                    result += _romanDictionary[1000];
+                }
+                
+                return AppendRomanSummaryUnder900Result(baseNumber % 1000, result);
+            }
             default: return _romanDictionary[baseNumber];
         }
+    }
+
+    private string AppendRomanSummaryUnder900Result(int remainder, string result)
+    {
+        return remainder switch
+        {
+            < 400 => AppendRomanUnder400Result(remainder, result),
+            < 900 => AppendRomanUnder900Result(remainder, result),
+            _ => result
+        };
+    }
+
+    private string AppendRomanUnder900Result(int remainder, string result)
+    {
+        result += _romanDictionary[500];
+
+        return AppendRomanUnder400Result(remainder % 500, result);
     }
 
     private string AppendRomanUnder400Result(int remainder, string result)
@@ -73,20 +96,13 @@ public class RomanConverter(int baseNumber)
 
     private string AppendRomanSummaryUnder90Result(int remainder, string result)
     {
-        switch (remainder)
+        return remainder switch
         {
-            case < 9:
-                return AppendRomanUnder9Result(remainder, result);
-            case < 40:
-            {
-                return AppendRomanUnder40Result(remainder, result);
-            }
-            case < 90:
-            {
-                return AppendRomanUnder90Result(remainder, result);
-            }
-        }
-        return result;
+            < 9 => AppendRomanUnder9Result(remainder, result),
+            < 40 => AppendRomanUnder40Result(remainder, result),
+            < 90 => AppendRomanUnder90Result(remainder, result),
+            _ => result
+        };
     }
 
     private string AppendRomanUnder90Result(int remainder, string result)
